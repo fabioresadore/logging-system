@@ -23,7 +23,7 @@ logger.clean() # to clean the entire log file
 logger.clean("WARNING") # to clean the 'WARNING' logs on the log file
 ```
 
-## log file content example
+## pattern of the log file content
 ```
 02-05-2020 10:17:30 INFO: algum log
 02-05-2020 10:17:30 INFO: algum log
