@@ -1,5 +1,6 @@
 # logging-system
-A handmade logging system for general purpose
+A simply and functional Python logging system for general purpose
+No aditional packages needed!
 
 ## usage
 ```
