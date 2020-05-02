@@ -16,7 +16,8 @@ import json
 class Logging:
     def __init__(self, file='logfile.log'):
         if type(file) is not str:
-            raise Exception("'file' type in the Logging instance needs to be string. Provided: {}".format(type(file)))
+            raise TypeError(
+                "'file' type in the Logging instance needs to be string. Provided: {}".format(type(file)))
         self.file = file
         self.log_dir = ""
         self.log_types = [
@@ -29,22 +30,22 @@ class Logging:
 
     def file_handling(self, content='', read=False, write=False):
         if type(content) is not str:
-            raise Exception(
+            raise TypeError(
                 "'content' type needs to be string. Provided: {}".format(type(content)))
         if type(read) is not bool:
-            raise Exception(
+            raise TypeError(
                 "'read' type needs to be boolean. Provided: {}".format(type(read)))
         if type(write) is not bool:
-            raise Exception(
+            raise TypeError(
                 "'write' type needs to be boolean. Provided: {}".format(type(write)))
         if read == False and write == False:
-            raise Exception(
+            raise ValueError(
                 "At least one of 'read' or 'write' arguments must be True")
         elif read and write:
-            raise Exception("Only 'read' and 'write' argument can be True")
+            raise ValueError("Only 'read' and 'write' argument can be True")
         if write and content == '':
-            raise Exception(
-                "'content' argument needs to have a some value. Provided: {}".format(content))
+            raise ValueError(
+                "'content' argument needs to have some value. Provided: {}".format(content))
 
         log_file = self.log_dir + self.file
         file_content = ''
@@ -65,11 +66,19 @@ class Logging:
             file.close()
 
     def clean(self, log_type='', whole=False):
+        '''
+        Make a clean in log file
+
+
+        whole: turn this True if you wanna to clean the entire file
+        log_type: the log type, see self.log_types to valids type list
+        '''
+
         if type(log_type) is not str:
-            raise Exception(
+            raise TypeError(
                 "'log_type' type needs to be string. Provided: {}".format(type(log_type)))
         if type(whole) is not bool:
-            raise Exception(
+            raise TypeError(
                 "'whole' type needs to be boolean. Provided: {}".format(type(log_type)))
         log_file = self.log_dir + self.file
         if whole and log_type == '':
@@ -77,7 +86,7 @@ class Logging:
                 file.write('')
                 file.close()
         elif whole and log_file != '':
-            raise Exception(
+            raise ValueError(
                 "when 'whole' is True, the 'log_type' needs to be empty. Provided: {}".format(log_type))
         elif whole == False and log_type in self.log_types:
             new_lines = ''
@@ -93,12 +102,20 @@ class Logging:
                 file.write(new_lines)
                 file.close()
         else:
-            raise Exception(
+            raise ValueError(
                 "'log_type' needs to be a valid log type value. Provided: {}".format(log_type))
 
     def write(self, log_type: str, log_text: str):
+        '''
+        Writes a log in the log file
+
+
+        log_type: the log type, see self.log_types to valids type list
+        log_text: the log text
+        '''
+
         if log_type not in self.log_types:
-            raise Exception(
+            raise ValueError(
                 "'log_type' needs to be a valid log type value. Provided: {}".format(log_type))
         now = datetime.datetime.now()
         log_line = "%s %s: %s\n" % (now.strftime(
@@ -106,14 +123,21 @@ class Logging:
 
         self.file_handling(log_line, write=True)
 
-    def read(self, log_type: str = 'ALL'):
+    def read(self, log_type: str = 'ALL') -> list:
+        '''
+        Read the log file
+
+
+        log_type: the log type, see self.log_types to valids type list
+        '''
+
         if type(log_type) is str:
             all_log = self.file_handling(read=True).split("\n")
             if log_type == 'ALL':
                 return all_log
             else:
                 if log_type not in self.log_types:
-                    raise Exception(
+                    raise ValueError(
                         "'log_type' needs to be a valid log type value. Provided: {}".format(log_type))
                 typed_log = []
                 for logline in all_log:
@@ -121,4 +145,5 @@ class Logging:
                         typed_log.append(logline)
                 return typed_log
         else:
-            raise Exception("'log_type' typ needs to be string. Provided: {}".format(log_type))
+            raise TypeError(
+                "'log_type' typ needs to be string. Provided: {}".format(type(log_type)))
