@@ -123,7 +123,7 @@ class Logging:
 
         self.file_handling(log_line, write=True)
 
-    def read(self, log_type: str = 'ALL') -> list:
+    def read(self, log_type: str = 'ALL'):
         '''
         Read the log file
 
@@ -147,3 +147,38 @@ class Logging:
         else:
             raise TypeError(
                 "'log_type' typ needs to be string. Provided: {}".format(type(log_type)))
+
+    def debug(self, log_text: str):
+        if type(log_text) is str:
+            self.write("DEBUG", log_text)
+        else:
+            raise TypeError(
+                "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
+
+    def info(self, log_text: str):
+        if type(log_text) is str:
+            self.write("INFO", log_text)
+        else:
+            raise TypeError(
+                "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
+
+    def warning(self, log_text: str):
+        if type(log_text) is str:
+            self.write("WARNING", log_text)
+        else:
+            raise TypeError(
+                "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
+
+    def danger(self, log_text: str):
+        if type(log_text) is str:
+            self.write("DANGER", log_text)
+        else:
+            raise TypeError(
+                "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
+
+    def error(self, log_text: str):
+        if type(log_text) is str:
+            self.write("ERROR", log_text)
+        else:
+            raise TypeError(
+                "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
