@@ -1,23 +1,22 @@
 #################################################################
-#   LOGGER HANDLER                                              #
+#   LOGGING SYSTEM                                              #
 #                                                               #
 # e.g.                                                          #
-# input: logSystem('INFO', 'foi feita uma submissao')           #
+# input: Logging(logfile.log).debug('some log')                 #
 # output:                                                       #
-#   write a new line in 'django_log.log':                       #
-#       '0/0/0000 0:0:0 INFO: foi feita uma submissao'          #
+#   write a new line in 'logfile.log':                          #
+#       '00/00/0000 00:00:00 DEBUG: somelog'                    #
 #################################################################
 
 import os
 import datetime
-import json
 
 
 class Logging:
     def __init__(self, file='logfile.log'):
-        if type(file) is not str:
-            raise TypeError(
-                "'file' type in the Logging instance needs to be string. Provided: {}".format(type(file)))
+        assert type(file) is str, "'file' argument type in the Logging instance needs to be string. Provided: {}".format(
+            type(file))
+
         self.file = file
         self.log_dir = ""
         self.log_types = [
@@ -28,16 +27,15 @@ class Logging:
             'ERROR'
         ]
 
-    def file_handling(self, content='', read=False, write=False):
-        if type(content) is not str:
-            raise TypeError(
-                "'content' type needs to be string. Provided: {}".format(type(content)))
-        if type(read) is not bool:
-            raise TypeError(
-                "'read' type needs to be boolean. Provided: {}".format(type(read)))
-        if type(write) is not bool:
-            raise TypeError(
-                "'write' type needs to be boolean. Provided: {}".format(type(write)))
+    def file_handling(self, content: str = '', read: bool = False, write: bool = False):
+
+        assert type(content) is str, "'content' type needs to be string. Provided: {}".format(
+            type(content))
+        assert type(read) is bool, "'read' type needs to be boolean. Provided: {}".format(
+            type(read))
+        assert type(write) is bool, "'write' type needs to be boolean. Provided: {}".format(
+            type(write))
+
         if read == False and write == False:
             raise ValueError(
                 "At least one of 'read' or 'write' arguments must be True")
@@ -65,7 +63,7 @@ class Logging:
 
             file.close()
 
-    def clean(self, log_type='', whole=False):
+    def clean(self, log_type: str = '', whole: bool = False):
         '''
         Make a clean in log file
 
@@ -74,12 +72,11 @@ class Logging:
         log_type: the log type, see self.log_types to valids type list
         '''
 
-        if type(log_type) is not str:
-            raise TypeError(
-                "'log_type' type needs to be string. Provided: {}".format(type(log_type)))
-        if type(whole) is not bool:
-            raise TypeError(
-                "'whole' type needs to be boolean. Provided: {}".format(type(log_type)))
+        assert type(log_type) is str, "'log_type' type needs to be string. Provided: {}".format(
+            type(log_type))
+        assert type(whole) is bool, "'whole' type needs to be boolean. Provided: {}".format(
+            type(log_type))
+
         log_file = self.log_dir + self.file
         if whole and log_type == '':
             with open(log_file, "w") as file:
@@ -114,9 +111,9 @@ class Logging:
         log_text: the log text
         '''
 
-        if log_type not in self.log_types:
-            raise ValueError(
-                "'log_type' needs to be a valid log type value. Provided: {}".format(log_type))
+        assert log_type in self.log_types, "'log_type' needs to be a valid log type value. Provided: {}".format(
+            log_type)
+
         now = datetime.datetime.now()
         log_line = "%s %s: %s\n" % (now.strftime(
             "%d-%m-%Y %H:%M:%S"), log_type, log_text)
@@ -136,9 +133,9 @@ class Logging:
             if log_type == 'ALL':
                 return all_log
             else:
-                if log_type not in self.log_types:
-                    raise ValueError(
-                        "'log_type' needs to be a valid log type value. Provided: {}".format(log_type))
+                assert log_type in self.log_types, "'log_type' needs to be a valid log type value. Provided: {}".format(
+                    log_type)
+
                 typed_log = []
                 for logline in all_log:
                     if log_type in logline:
