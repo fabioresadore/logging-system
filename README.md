@@ -20,7 +20,7 @@ logger.warning("some log text")
 logger.danger("some log text")
 logger.error("some log text")
 
-logger.clean() # to clean the entire log file
+logger.clean(whole=True) # to clean the entire log file
 logger.clean("WARNING") # to clean the 'WARNING' logs on the log file
 ```
 
