@@ -23,7 +23,7 @@ class Logging:
             'DEBUG',
             'INFO',
             'WARNING',
-            'DANGER',
+            'CRITICAL',
             'ERROR'
         ]
 
@@ -120,7 +120,7 @@ class Logging:
 
         self.file_handling(log_line, write=True)
 
-    def read(self, log_type: str = 'ALL'):
+    def read(self, log_type: str = 'ALL') -> list:
         '''
         Read the log file
 
@@ -166,9 +166,9 @@ class Logging:
             raise TypeError(
                 "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
 
-    def danger(self, log_text: str):
+    def critical(self, log_text: str):
         if type(log_text) is str:
-            self.write("DANGER", log_text)
+            self.write("CRITICAL", log_text)
         else:
             raise TypeError(
                 "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
@@ -179,3 +179,21 @@ class Logging:
         else:
             raise TypeError(
                 "'log_text' typ needs to be string. Provided: {}".format(type(log_text)))
+
+    def get_all(self) -> list:
+        return self.read()
+
+    def get_debug(self) -> list:
+        return self.read(log_type='DEBUG')
+
+    def get_info(self) -> list:
+        return self.read(log_type='INFO')
+
+    def get_warning(self) -> list:
+        return self.read(log_type='WARNING')
+
+    def get_critical(self) -> list:
+        return self.read(log_type='CRITICAL')
+
+    def get_error(self) -> list:
+        return self.read(log_type='ERROR')
