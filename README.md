@@ -9,8 +9,14 @@ from main import Logging
 logger = Logging() # or other object name, this will write on the 'logfile.log' file, that is the dafault value
 logger = Logging('somelog.log') # this will write the 'somelog.log' file
 
-logger.read() # to read entire log
-logger.read("DEBUG") # to read the 'DEBUG' log
+logger.get_all() # to read entire log
+logger.get_debug() # to read the 'DEBUG' log
+AS THE SAME FOR
+logger.get_info()
+logger.get_waning()
+logger.get_critical()
+logger.get_error()
+
 
 logger.write("INFO", "some log text") # write the 'INFO' log in the log file
 YOU CAN ALSO DO:
@@ -26,16 +32,16 @@ logger.clean("WARNING") # to clean the 'WARNING' logs on the log file
 
 ## pattern of the log file content
 ```
-02-05-2020 10:17:30 INFO: algum log
-02-05-2020 10:17:30 INFO: algum log
-02-05-2020 10:17:30 DEBUG: algum log
-02-05-2020 10:17:30 DEBUG: algum log
-02-05-2020 10:17:30 DEBUG: algum log
+02-05-2020 10:17:30 INFO: some log text
+02-05-2020 10:17:30 INFO: some log text
+02-05-2020 10:17:30 DEBUG: some log text
+02-05-2020 10:17:30 DEBUG: some log text
+02-05-2020 10:17:30 DEBUG: some log text
 ```
 
 ## log types
 * DEBUG
 * INFO
 * WARNING
-* DANGER
+* CRITICAL
 * ERROR
