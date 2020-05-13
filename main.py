@@ -13,7 +13,7 @@ import datetime
 
 
 class Logging:
-    def __init__(self, file='logfile.log'):
+    def __init__(self, file: str = 'logfile.log'):
         assert type(file) is str, "'file' argument type in the Logging instance needs to be string. Provided: {}".format(
             type(file))
 
